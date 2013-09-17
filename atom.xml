@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://sathyamvellal.github.io//github/atom.xml" rel="self"/>
-  <link href="http://sathyamvellal.github.io//github/"/>
-  <updated>2013-09-17T08:46:45+05:30</updated>
-  <id>http://sathyamvellal.github.io//github/</id>
+  <link href="http://sathyamvellal.github.io/0adblog/atom.xml" rel="self"/>
+  <link href="http://sathyamvellal.github.io/0adblog/"/>
+  <updated>2013-09-17T08:55:34+05:30</updated>
+  <id>http://sathyamvellal.github.io/0adblog/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
