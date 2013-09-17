@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://sathyamvellal.github.io/0adblog/sitemap.xml 
+Sitemap: http://github.com/sathyamvellal/0adblog/sitemap.xml 

@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://sathyamvellal.github.io/0adblog/robots.txt</loc>
-        <lastmod>2013-09-17T08:37:25+05:30</lastmod>
+        <loc>http://github.com/sathyamvellal/0adblog/robots.txt</loc>
+        <lastmod>2013-09-17T09:02:34+05:30</lastmod>
     </url>
     <url>
-        <loc>http://sathyamvellal.github.io/0adblog/blog/archives/</loc>
-        <lastmod>2013-09-17T08:37:25+05:30</lastmod>
+        <loc>http://github.com/sathyamvellal/0adblog/blog/archives/</loc>
+        <lastmod>2013-09-17T09:02:34+05:30</lastmod>
     </url>
     <url>
-        <loc>http://sathyamvellal.github.io/0adblog/</loc>
-        <lastmod>2013-09-17T08:37:25+05:30</lastmod>
+        <loc>http://github.com/sathyamvellal/0adblog/</loc>
+        <lastmod>2013-09-17T09:02:34+05:30</lastmod>
     </url>
 </urlset>
