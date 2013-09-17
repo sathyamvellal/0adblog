@@ -2,7 +2,7 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://sathyamvellal.github.io//github
+url: http://github.com/sathyamvellal/0adblog
 title: My Octopress Blog
 subtitle: A blogging framework for hackers.
 author: Your Name
@@ -16,7 +16,7 @@ description:
 date_format: "ordinal"
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
-subscribe_rss: /github/atom.xml
+subscribe_rss: /0adblog/atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
 email:
@@ -26,10 +26,10 @@ email:
 # ----------------------- #
 
 # If publishing to a subdirectory as in http://site.com/project set 'root: /project'
-root: /github
+root: /0adblog
 permalink: /blog/:year/:month/:day/:title/
 source: source
-destination: public/github
+destination: public/0adblog
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
