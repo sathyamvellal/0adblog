@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[0 A.D.venture]]></title>
+  <title><![CDATA[0 .A.Dventure]]></title>
   <link href="http://github.com/sathyamvellal/0adblog/atom.xml" rel="self"/>
   <link href="http://github.com/sathyamvellal/0adblog/"/>
-  <updated>2013-09-17T12:18:41+05:30</updated>
+  <updated>2013-09-22T09:27:22+05:30</updated>
   <id>http://github.com/sathyamvellal/0adblog/</id>
   <author>
     <name><![CDATA[Sathyam Vellal & Jashwanth Reddy]]></name>
