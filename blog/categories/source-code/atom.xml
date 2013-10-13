@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: source-code, | 0 .A.Dventure]]></title>
+  <link href="http://github.com/sathyamvellal/0adblog/blog/categories/source-code/atom.xml" rel="self"/>
+  <link href="http://github.com/sathyamvellal/0adblog/"/>
+  <updated>2013-10-14T01:52:24+05:30</updated>
+  <id>http://github.com/sathyamvellal/0adblog/</id>
+  <author>
+    <name><![CDATA[Sathyam Vellal & Jashwanth Reddy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The source of it all...! [Part 1]]]></title>
+    <link href="http://github.com/sathyamvellal/0adblog/2013/10/02/the-source-of-it-all-part-1/"/>
+    <updated>2013-10-02T07:38:00+05:30</updated>
+    <id>http://github.com/sathyamvellal/0adblog/2013/10/02/the-source-of-it-all-part-1</id>
+    <content type="html"><![CDATA[<p>We finally made an attempt to go through the source and wow its big! One thing about OpenSource projects is how much you learn by understanding the source; not just getting to know it but learning and understanding the design concepts! <a href="http://svn.wildfiregames.com/public/ps/trunk">This wiki page</a> tells you what to do to get the source and how to build it.</p>
+
+<!-- more -->
+
+
+<p>This post is aimed to give you an overview of some aspects of developing 0 A.D. Although these details are available in the wiki, they are not yet structured in an understandable way. Here, we gather many wiki articles and also provide some information on how the game is structured.</p>
+
+<h3>What does the root directory contain?</h3>
+
+<p>Let&rsquo;s have an overview of it first.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Root Directory </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(0ad)source@svn : /$ tree
+</span><span class='line'>.
+</span><span class='line'>|&mdash; binaries/
+</span><span class='line'>|&mdash; build/
+</span><span class='line'>|&mdash; docs/
+</span><span class='line'>|&mdash; libraries/
+</span><span class='line'>|&mdash; source/
+</span><span class='line'>|&mdash; license_dbghelp.txt
+</span><span class='line'>|&mdash; license_gpl-2.0.txt
+</span><span class='line'>|&mdash; license_lgpl-2.1.txt
+</span><span class='line'>|&mdash; LICENSE.txt
+</span><span class='line'>`&mdash; README.txt&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>5 directories, 5 files</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>binaries →</strong> This contains all of the game&rsquo;s data, scripts that are executed during the game, mods and other executables (typically for windows). This is what goes to the end user.<br/>
+<strong>build →</strong> This has the necessary tools and programs to set up a workspace to build the game. More instructions on how to build the game can be seen <a href="http://trac.wildfiregames.com/wiki/BuildInstructions">here</a>.<br/>
+<strong>docs →</strong> All documentation goes here.<br/>
+<strong>libraries →</strong> Placeholder for third-party libraries used in the game. However, they may or may not be used.<br/>
+<strong>source →</strong> This contains the source of the game engine and the source of other tools that are associated with the game (Eg: The scenario editor).</p>
+
+<h4>Are there more details available?</h4>
+
+<p>A more detailed information on what these directories (and their subdirectories) contain can be found <a href="http://trac.wildfiregames.com/wiki/Finding_Your_Way_Around">here</a>.</p>
+
+<h4>What resources are available for a contributor to learn more about the game?</h4>
+
+<p>The first is the <a href="http://trac.wildfiregames.com/">trac wiki</a>. This has a lot of links for all kinds of contributors &ndash; artists, programmers, etc. The next place are the <a href="http://www.wildfiregames.com/forum/index.php">game forums</a>. One needs to register for the forums and there are 5 categories of forums available; the description of which can be seen under the link to the particular forum. And lastly, the best place to communicate is the IRC. You can join the channels<code>#0ad</code> and <code>#0ad-dev</code> in <code>QuakeNet</code> and jump right into a live discussion over there!</p>
+
+<h4>What are the languages used to implement the game design?</h4>
+
+<p>The source of the game is written in C++ and JS. Interesting right?<br/>
+The convention is to have as much of the game&rsquo;s source in JS as possible (to keep it simple) and only write the core game engine and those components which need performance in C++. This enables the game to be heavily moddable through JS.</p>
+
+<h4>I would like to be a developer and was wondering how to start with the game-dev. Any tips?</h4>
+
+<p>As we said, the <a href="http://trac.wildfiregames.com/">trac wiki</a> is the entry point for getting a picture of the game&rsquo;s structure. The next step would be to start reading the source (which is discussed from the next post onwards). You&rsquo;ll also need to know the <a href="http://trac.wildfiregames.com/wiki/Coding_Conventions">coding guidelines and conventions</a> that are followed so you can understand the source better and also will get you prepared when you start with the development. You would also need to learn <a href="http://svn.wildfiregames.com/public/ps/trunk">how to build the game</a>, which for a developer, is vital. You can then look at some <a href="http://trac.wildfiregames.com/report">tickets available on trac</a> and try to solve a few easy ones. This actually kickstarts the development and helps you to learn more about the internal structure of the game. You can start off with a few <a href="http://trac.wildfiregames.com/query?status=assigned&amp;status=new&amp;status=reopened&amp;keywords=~simple&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;report=16&amp;order=priority">beginner-level tickets</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

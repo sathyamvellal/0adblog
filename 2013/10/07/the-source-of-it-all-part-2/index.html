@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The source of it all...! [Part 2] - 0 .A.Dventure</title>
+  <meta name="author" content="Sathyam Vellal & Jashwanth Reddy">
+
+  
+  <meta name="description" content="In the last post we documented an overview of the game and also some vital resources that are to be used during the game-dev So lets start descending &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://github.com/sathyamvellal/0adblog/2013/10/07/the-source-of-it-all-part-2">
+  <link href="/0adblog/favicon.png" rel="icon">
+  <link href="/0adblog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/0adblog/atom.xml" rel="alternate" title="0 .A.Dventure" type="application/atom+xml">
+  <script src="/0adblog/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/0adblog/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-42225587-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/0adblog/">0 .A.Dventure</a></h1>
+  
+    <h2>The Force is strong with this one.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/0adblog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:github.com/sathyamvellal/0adblog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/0adblog/">Blog</a></li>
+  <li><a href="/0adblog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Source of It All...! [Part 2]</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-07T13:14:00+05:30" pubdate data-updated="true">Oct 7<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In the last post we documented an overview of the game and also some vital resources that are to be used during the game-dev So lets start descending into the source. In this post we&rsquo;ll discuss how the game starts and runs.</p>
+
+<p>Also, you can access the doxygen generated doc of the game&rsquo;s source available <a href="/0adblog/docs/index.html">here</a>. This documentation will be regularly updated and will be referred to throughout the blog.</p>
+
+<!-- more -->
+
+
+<p>If you build the game on your own, using the source, you typically get a binary <code>pyrogenesis</code> in the <code>binaries/system</code> directory and the game will be using data or scripts present in <code>binaries/data/mods/public</code>; unless the game is compiled with some flags specifying the binary, data or lib directories while setting up the workspace (info can be found <a href="http://trac.wildfiregames.com/wiki/BuildAndDeploymentEnvironment">here</a>).</p>
+
+<p>So let&rsquo;s begin! When the game is run, it starts off by performing some initializations.</p>
+
+<ol>
+<li>The thread on which the game started is marked as the main thread and its named &ldquo;main&rdquo;. <a href="/0adblog/docs/GameSetup_8cpp_source.html#l00827">[GameSetup.cpp:827]</a></li>
+<li>The current time is noted so that elapsed time can be counted from this point. <a href="/0adblog/docs/GameSetup_8cpp_source.html#l00838">[GameSetup.cpp:838]</a></li>
+<li>The profiler is initialized and started. The profiler is used for analysing framerate fluctuations or glitches and temporal relationships between threads. <a href="/0adblog/docs/GameSetup_8cpp_source.html#l00842">[GameSetup.cpp:842]</a></li>
+<li>The locales are set for the game execution depending on the OS. <a href="/0adblog/docs/GameSetup_8cpp_source.html#l00844">[GameSetup.cpp:844]</a></li>
+</ol>
+
+
+<p>After this is done, the game is then ready to start running. Now,</p>
+
+<ol>
+<li>The command line arguments are interpreted (if any given). <a href="/0adblog/docs/main_8cpp_source.html#l00446">[main.cpp:446]</a></li>
+<li>A virtual file system is created and the game&rsquo;s cache and data are loaded. <a href="/0adblog/docs/main_8cpp_source.html#l00465">[main.cpp:465]</a></li>
+<li>The game is now started and the graphics initialized. <a href="/0adblog/docs/main_8cpp_source.html#l00504">[main.cpp:504]</a></li>
+<li>The input handlers are initialized and set. <a href="/0adblog/docs/main_8cpp_source.html#l00506">[main.cpp:506]</a></li>
+</ol>
+
+
+<p>By now the game is up and running and the profiler would be capturing every frame.  When the game is quit, the shutdown sequence starts. You can see all this starting from <a href="http://svn.wildfiregames.com/public/ps/trunk/source/main.cpp">source/main.cpp</a> and related files. There&rsquo;s just too much code to inline in the post!</p>
+
+<p>While this certainly gives a fair idea of how the game begins, its worth noting some classes and features available in the source.</p>
+
+<p>The Core Engine modules are placed in <a href="/0adblog/docs/dir_0dc38aac9085a57339423d7e064a603d.html">source/ps/</a> directory. A few of them are &ndash;</p>
+
+<ol>
+<li><a href="/0adblog/docs/ArchiveBuilder_8h_source.html">ArchiveBuilder</a>: Used to package mod files into distributable archives.</li>
+<li><a href="/0adblog/docs/CConsole_8h_source.html">Console</a>: The in-game scripting console.</li>
+<li><a href="/0adblog/docs/ConfigDB_8h_source.html">ConfigDB</a>: Manage configuration variables for the game.</li>
+<li><a href="/0adblog/docs/CStr_8h_source.html">CStr</a>: A string wrapper designed to provide better string handling.</li>
+<li><a href="/0adblog/docs/Filesystem_8h_source.html">Filesystem</a>: A class to provide filesystem-like functionality to the API which makes it easier to access files for the game.</li>
+<li><a href="/0adblog/docs/CmdLineArgs_8h_source.html">GameSetup/CmdLineArgs</a>: A class to parse the command line arguments.</li>
+<li><a href="/0adblog/docs/Paths_8h_source.html">GameSetup/Paths</a>: Wrapper class for OS Paths used in the game.</li>
+</ol>
+
+
+<p>&hellip; and many more! You can have a look at <a href="/0adblog/docs/dir_0dc38aac9085a57339423d7e064a603d.html">the directory</a> to view all the files in it.
+Our work isn&rsquo;t done yet! Our initial focus has been on the AI which we&rsquo;ll be covering next.</p>
+
+<p>To be continued &hellip;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sathyam Vellal & Jashwanth Reddy</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-07T13:14:00+05:30" pubdate data-updated="true">Oct 7<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://github.com/sathyamvellal/0adblog/2013/10/07/the-source-of-it-all-part-2/" data-via="" data-counturl="http://github.com/sathyamvellal/0adblog/2013/10/07/the-source-of-it-all-part-2/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/0adblog/2013/10/02/the-source-of-it-all-part-1/" title="Previous Post: The source of it all...! [Part 1]">&laquo; The source of it all...! [Part 1]</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/0adblog/2013/10/07/the-source-of-it-all-part-2/">The source of it all...! [Part 2]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/0adblog/2013/10/02/the-source-of-it-all-part-1/">The source of it all...! [Part 1]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/0adblog/2013/09/22/why-we-are-contibuting-to-0ad/">Why we're contributing to 0 A.D.</a>
+      </li>
+    
+  </ul>
+</section>
+Included file 'asides/0adblog.html' not found in _includes directory
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sathyam Vellal & Jashwanth Reddy -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = '0adblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://github.com/sathyamvellal/0adblog/2013/10/07/the-source-of-it-all-part-2/';
+        var disqus_url = 'http://github.com/sathyamvellal/0adblog/2013/10/07/the-source-of-it-all-part-2/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
