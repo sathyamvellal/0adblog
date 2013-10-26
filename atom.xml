@@ -4,7 +4,7 @@
   <title><![CDATA[0 .A.Dventure]]></title>
   <link href="http://github.com/sathyamvellal/0adblog/atom.xml" rel="self"/>
   <link href="http://github.com/sathyamvellal/0adblog/"/>
-  <updated>2013-10-26T10:41:43+05:30</updated>
+  <updated>2013-10-26T11:08:41+05:30</updated>
   <id>http://github.com/sathyamvellal/0adblog/</id>
   <author>
     <name><![CDATA[Sathyam Vellal & Jashwanth Reddy]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Our first Patch!]]></title>
+    <link href="http://github.com/sathyamvellal/0adblog/2013/10/26/our-first-patch/"/>
+    <updated>2013-10-26T10:45:00+05:30</updated>
+    <id>http://github.com/sathyamvellal/0adblog/2013/10/26/our-first-patch</id>
+    <content type="html"><![CDATA[<p>In our quest to understand more of the AI (which is written in JS), we use the homegrown <a href="http://trac.wildfiregames.com/wiki/JavascriptDebugging">JSDebugger tool</a>. And we contributed a little something for this ;)</p>
+
+<!-- more -->
+
+
+<p>The JSDebugger did not have keybindings for the different debugging actions like Step, Step-Into, Continue, Break, etc. And that&rsquo;s what we added. Though this was child&rsquo;s play, it certainly feels amazing to have actually contributed something. Oh, it does not stop there! Its committed in SVN revision #14014! :D<br/>
+Check it out &ndash;> <a href="http://trac.wildfiregames.com/ticket/2208">Ticket #2208</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The source of it all...! [Part 3]]]></title>
