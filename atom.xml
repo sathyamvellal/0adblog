@@ -4,7 +4,7 @@
   <title><![CDATA[0 .A.Dventure]]></title>
   <link href="http://github.com/sathyamvellal/0adblog/atom.xml" rel="self"/>
   <link href="http://github.com/sathyamvellal/0adblog/"/>
-  <updated>2013-10-14T01:52:24+05:30</updated>
+  <updated>2013-10-26T10:41:43+05:30</updated>
   <id>http://github.com/sathyamvellal/0adblog/</id>
   <author>
     <name><![CDATA[Sathyam Vellal & Jashwanth Reddy]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The source of it all...! [Part 3]]]></title>
+    <link href="http://github.com/sathyamvellal/0adblog/2013/10/18/the-source-of-it-all-part-3/"/>
+    <updated>2013-10-18T07:46:00+05:30</updated>
+    <id>http://github.com/sathyamvellal/0adblog/2013/10/18/the-source-of-it-all-part-3</id>
+    <content type="html"><![CDATA[<p>In the last two posts we looked at how the game source is organized and how it launches. We&rsquo;ll now go deeper and delve into the huge codebase of C++/JS and how these two languages communicate.</p>
+
+<!-- more -->
+
+
+<p>The first thing to know is that 0 A.D. uses a lot of wrappers and home grown entities like a string class, filesystem class, a compressor, parsers for parsing game related files, thread managers, etc. All such classes can be found in <strong>source/ps</strong> directory (ps stands for <em>pyrogenesis</em>, the name of the game engine). But what interests us, lies in the <strong>source/simulation2</strong> directory. This contains all the core components that are used by the Engine to communicate with the simulation aspects of the game. So what do we have here?</p>
+
+<figure class='code'><figcaption><span>Root Directory </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(0ad)source@svn : simulation2$ tree
+</span><span class='line'>.
+</span><span class='line'>|-- components/
+</span><span class='line'>|-- docs/
+</span><span class='line'>|-- helpers/
+</span><span class='line'>|-- scripting/
+</span><span class='line'>|-- serialization/
+</span><span class='line'>|-- system/
+</span><span class='line'>|-- tests/
+</span><span class='line'>|-- MessageTypes.h
+</span><span class='line'>|-- Simulation2.cpp
+</span><span class='line'>|-- Simulation2.h
+</span><span class='line'>`-- TypeList.h
+</span><span class='line'>
+</span><span class='line'>7 directories, 4 files</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Majority of the code here resides in the <a href="http://github.com/sathyamvellal/0adblog/docs/dir_1d614d6cd62ee91a565feed8a30f6de5.html">components/</a> directory. This has most of the major components (as the dir name suggests) required for running handling the simulation, including code which runs the scripts written in JS. Most of the components are implemented with an supposed-to-be-interface class which the actual component class inherits. Example, <code>CCmpAIManager</code> inherits <code>ICmpAIManager</code>; where the first letter represents a class or interface respectively. (more info on the coding guidelines and conventions can be seen <a href="http://trac.wildfiregames.com/wiki/Coding_Conventions">here</a>)</p>
+
+<p>Since our main target is the AI, let&rsquo;s try to understand how the AI begins. A lot of components are registered in the game; one of them being the AIManager component, defined in <a href="http://github.com/sathyamvellal/0adblog/docs/CCmpAIManager_8cpp_source.html">CCmpAIManager.cpp</a>. This has the <a href="http://github.com/sathyamvellal/0adblog/docs/classCCmpAIManager.html">CCmpAIManager</a> class. Before going to the details of this class, let us see something very interesting.</p>
+
+<p>The source uses SpiderMonkey to bind C++ and JS. The C++ source exposes a variable called <code>Engine</code> to the JS runtime, which is an instance of the <a href="http://github.com/sathyamvellal/0adblog/docs/classScriptInterface.html">ScriptInterface</a> class. This is created in the singleton <a href="http://github.com/sathyamvellal/0adblog/docs/classScriptingHost.html">ScriptingHost</a> class. The singleton object creating is handled through a <a href="http://github.com/sathyamvellal/0adblog/docs/classSingleton.html">Singleton</a> base class. So what&rsquo;s the result? The JS runtime can now access the C++ routines through the <code>Engine</code> object (which internally is an object of <code>ScriptInterface</code>).<br/>
+The next step would be to attach routines to this Engine object so that they&rsquo;d be exposed to the JS runtime and this is done through the <code>RegisterFunction</code> function, in the file <a href="http://github.com/sathyamvellal/0adblog/docs/NativeWrapperDecls_8h_source.html">NativeWrapperDecls.h</a> which registers a C++ function with the <code>Engine</code>object. So if a function named <code>Foo</code> is registered, then this function can be accessed in JS as <code>Engine.Foo()</code>. Ain&rsquo;t it a beauty??!</p>
+
+<p>So, we have a function <code>Script_QueryInterface</code> of the <a href="http://github.com/sathyamvellal/0adblog/docs/classCComponentManager.html">CComponentManager</a> class registered with the <code>Engine</code> object with the name <code>QueryInterface</code>. What this does is give an object of the queried interface. So to obtain an object of the AIManager component, (whose interface is <a href="http://github.com/sathyamvellal/0adblog/docs/classICmpAIManager.html">ICmpAIManager</a> and implemented in <a href="http://github.com/sathyamvellal/0adblog/docs/classCCmpAIManager.html">CCmpAIManager</a>; henceforth, we&rsquo;ll call this <em>AIManager</em>) all we need to do is use <code>Engine.QueryInterface</code>. To specify that we require the AIManager component, the ID is passed as the second argument to this function. The ID of each component is declared as an <em>enum</em> in <a href="http://github.com/sathyamvellal/0adblog/docs/Components_8h_source.html">source/simulation2/system/Components.h</a>.
+This is exactly what the script <a href="https://github.com/0ad/0ad/blob/master/binaries/data/mods/public/simulation/helpers/InitGame.js#L13">InitGame.js#L13</a> does. So there it is! The JS runtime&rsquo;s access to the Engine&rsquo;s AIManager through the JS object <code>cmpAIManager</code>; this object is the gateway for all communication between C++ and JS (those related to AI)</p>
+
+<p>Now lets unwind our discussion stack. &ldquo;How does the AI start?&rdquo; was the question we started off with. Understand that <code>cmpAIManager</code> is an object of the AIManager component. This component has a function &ndash; <a href="https://github.com/0ad/0ad/blob/master/binaries/data/mods/public/simulation/helpers/InitGame.js#L20">AddPlayer</a>, defined in <a href="http://github.com/sathyamvellal/0adblog/docs/classCCmpAIManager.html">CCmpAIManager</a>. If you check <a href="https://github.com/0ad/0ad/blob/master/binaries/data/mods/public/simulation/helpers/InitGame.js#L20">InitGame.js#L20</a>, this function is called through the <code>cmpAIManager</code>. The <a href="http://github.com/sathyamvellal/0adblog/docs/classCAIWorker.html">CAIWorker</a> class implements the worker thread for the AIManager. An object of this class is stored in <code>CCmpAIManager</code>  as <code>m_Worker</code>. The AIWorker class has an <code>AddPlayer</code> function. This is called by the <code>AIManager</code>&rsquo;s <code>AddPlayer</code> function. You can observe this <a href="http://github.com/sathyamvellal/0adblog/docs/CCmpAIManager_8cpp_source.html#l00965">here</a>.<br/>
+The <code>CAIWorker.AddPlayer</code> function initializes the AI by calling the appropriate AI module (The directory of the AI-bot which contains all the relevant AI scripts. The order of functions that are called go like this -<br/>
+The <code>AIManager.AddPlayer</code><a href="http://github.com/sathyamvellal/0adblog/docs/CCmpAIManager_8cpp_source.html#l00963">[1]</a> calls the <code>AIWorker.AddPlayer</code><a href="http://github.com/sathyamvellal/0adblog/docs/CCmpAIManager_8cpp_source.html#l00512">[2]</a>. This first initializes the AI by calling <code>AIPlayer.Initialize</code><a href="http://github.com/sathyamvellal/0adblog/docs/CCmpAIManager_8cpp_source.html#l00209">[3]</a> which in turn calls <code>AIPlayer.LoadScripts</code><a href="http://github.com/sathyamvellal/0adblog/docs/CCmpAIManager_8cpp_source.html#l00185">[4]</a>. This function is responsible for loading the AI module by using <code>ScriptInterface.LoadGlobalScriptFile</code><a href="http://github.com/sathyamvellal/0adblog/docs/ScriptInterface_8cpp_source.html#l00952">[5]</a> which physically loads and executes the script file using SpiderMonkey bindings.</p>
+
+<p>And there you go! The AI module is loaded! So, while setting up the game, if you select the AI bot as <strong>Aegis Bot</strong> for an AI Player, then the <a href="https://github.com/0ad/0ad/blob/master/binaries/data/mods/public/simulation/ai/aegis">aegis module</a> will load. Make a note of the file <code>_init.js</code><a href="https://github.com/0ad/0ad/blob/master/binaries/data/mods/public/simulation/ai/aegis/_init.js">[6]</a> in the module. This file loads modules which are to be loaded before the rest of the current module is loaded. For example, the <em>Aegis Bot</em> requires <em>Common API v3</em> to be loaded (you can have a look at the <em>Common API v3</em> module <a href="https://github.com/0ad/0ad/blob/master/binaries/data/mods/public/simulation/ai/common-api-v3">here</a>). Also note that <code>Engine.IncludeModule</code> is registered to <code>CAIPlayer::IncludeModule</code><a href="http://github.com/sathyamvellal/0adblog/docs/ScriptInterface_8cpp_source.html#l00106">[7]</a> (which can be seen <a href="http://github.com/sathyamvellal/0adblog/docs/ScriptInterface_8cpp_source.html#l00089">here</a>) which again calls the <code>AIPlayer.LoadScripts</code><a href="http://github.com/sathyamvellal/0adblog/docs/CCmpAIManager_8cpp_source.html#l00185">[8]</a> function.</p>
+
+<p>Phew! Learning how the JS is executed is one exhausting task! See you in the next post. Bye!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The source of it all...! [Part 2]]]></title>
@@ -51,7 +116,7 @@
 
 <p>While this certainly gives a fair idea of how the game begins, its worth noting some classes and features available in the source.</p>
 
-<p>The Core Engine modules are placed in <a href="http://github.com/sathyamvellal/0adblog/docs/dir_0dc38aac9085a57339423d7e064a603d.html">source/ps/</a> directory. A few of them are &ndash;</p>
+<p>The Core Engine modules are placed in <a href="http://github.com/sathyamvellal/0adblog/docs/dir_0dc38aac9085a57339423d7e064a603d.html">source/ps/</a> directory and they are used all over the source. A few of them are &ndash;</p>
 
 <ol>
 <li><a href="http://github.com/sathyamvellal/0adblog/docs/ArchiveBuilder_8h_source.html">ArchiveBuilder</a>: Used to package mod files into distributable archives.</li>
