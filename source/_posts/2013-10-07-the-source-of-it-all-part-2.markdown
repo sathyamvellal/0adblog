@@ -32,7 +32,7 @@ By now the game is up and running and the profiler would be capturing every fram
 
 While this certainly gives a fair idea of how the game begins, its worth noting some classes and features available in the source.
 
-The Core Engine modules are placed in [source/ps/][4] directory. A few of them are -
+The Core Engine modules are placed in [source/ps/][4] directory and they are used all over the source. A few of them are -
 
 1. [ArchiveBuilder][20]: Used to package mod files into distributable archives.
 2. [Console][21]: The in-game scripting console.
